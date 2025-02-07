@@ -1,0 +1,29 @@
+USE [ProjektPBD]
+GO
+/****** Object:  Trigger [dbo].[AktualizujStatusGoscia]    Script Date: 14.12.2023 18:08:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER TRIGGER [dbo].[AktualizujStatusGoscia]
+ON [dbo].[Gosc]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Staly_gosc (Id)
+    SELECT Id
+    FROM inserted i
+    WHERE Liczba_odwiedzin IS NOT NULL AND Liczba_odwiedzin >= 3
+      AND NOT EXISTS (
+          SELECT 1
+          FROM Staly_gosc sg
+          WHERE sg.Id = i.Id
+      );
+
+    DELETE bg
+    FROM Byly_gosc bg
+    INNER JOIN deleted d ON bg.Id = d.Id;
+END;

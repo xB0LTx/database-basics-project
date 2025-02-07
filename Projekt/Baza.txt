@@ -1,0 +1,116 @@
+CREATE TABLE [Staly_gosc] (
+  [Id] int
+);
+
+CREATE TABLE [Praca] (
+  [Id_spektaklu] int not null,
+  [Id_pracownika] int not null,
+  [Data] date not null,
+  [Godzina_rozpoczecia_pracy] time not null,
+  [Godzina_zakończenia_pracy] time not null,
+);
+
+CREATE TABLE [Gosc] (
+  [Id] int not null identity(1,1) primary key,
+  [Imie] varchar(20) not null,
+  [Nazwisko] varchar(40) not null,
+  [Numer_kontaktowy] varchar(30),
+  [Adres_email] varchar(40),
+  [Liczba_odwiedzin] int not null,
+  [Data_ostatni_bilet] date not null
+);
+
+CREATE TABLE [Inwentarz_baru] (
+  [Nazwa_produktu] varchar(40) not null,
+  [Cena] decimal(4,2) not null,
+  [Cena_stali_goscie] decimal(4,2) not null
+);
+
+CREATE TABLE [Pracownik] (
+  [Id] int not null identity(1,1) primary key,
+  [Id_przelozonego] int,
+  [Imie] varchar(20) not null,
+  [Nazwisko] varchar(40) not null,
+  [Stanowisko] varchar(40) not null,
+  [Numer_kontaktowy] varchar(30) not null,
+  [Pensja] decimal(7,2) not null,
+  [Data_sprawdzenia_finansów] date
+);
+
+CREATE TABLE [Aktor] (
+  [Id] int not null identity(1,1) primary key,
+  [Imie] varchar(20) not null,
+  [Nazwisko] varchar(40) not null,
+  [Data_urodzenia] date not null
+);
+
+CREATE TABLE [Kupione_bilety] (
+  [Id_goscia] int not null,
+  [Id_spektaklu] int not null,
+  [Cena] decimal(4,2) not null,
+  [Data_spektaklu] date not null
+);
+
+CREATE TABLE [Byly_gosc] (
+  [Id] int,
+);
+
+CREATE TABLE [Przychod] (
+  [Id] int not null identity(1,1) primary key,
+  [Data] date not null,
+  [Kwota] decimal(9,2) not null,
+  [Opis] text not null
+);
+
+CREATE TABLE [Recenzja] (
+  [Spektakl_id] int not null,
+  [Autor] int not null,
+  [Ocena] int not null check(Ocena in(1,2,3,4,5)),
+  [Opis] text,
+  [Data_opublikowania] date not null
+);
+
+CREATE TABLE [Spektakl] (
+  [Id] int not null identity(1,1) primary key,
+  [Tytul] varchar(50) not null,
+  [Data_spektaklu] date not null,
+  [Godzina_rozpoczecia] time not null,
+  [Godzina_zakonczenia] time not null,
+  [Gatunek] varchar(20),
+  [Sala] varchar(20) not null
+);
+
+CREATE TABLE [Kapital_pieniezny] (
+  [Id] int not null identity(1,1) primary key,
+  [Data] date not null,
+  [Saldo] decimal(9,2) not null,
+  [Dochody] decimal(9,2) not null,
+  [Wydatki] decimal(9,2) not null,
+  [Ilosc_zgodna] bit not null
+);
+
+CREATE TABLE [Wydatek] (
+  [Id] int not null identity(1,1) primary key,
+  [Data] date not null,
+  [Kwota] decimal(9,2) not null,
+  [Opis] text not null
+);
+
+CREATE TABLE [Sala] (
+  [Nazwa] varchar(20) not null primary key,
+  [Pojemnosc] int not null
+);
+
+CREATE TABLE [Cennik] (
+  [Id_spektaklu] int not null primary key,
+  [Tytul_spektaklu] varchar(50) not null,
+  [Data_spektaklu] date not null,
+  [Godzina_rozpoczecia] time not null,
+  [Cena_biletu] decimal(4,2) not null,
+  [Cena_biletu_stali_goscie] decimal(4,2) not null
+);
+
+CREATE TABLE[Zatrudnieni_aktorzy] (
+  [Id_spektaklu] int not null,
+  [Id_aktora] int not null
+);
